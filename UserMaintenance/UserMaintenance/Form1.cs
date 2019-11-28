@@ -21,11 +21,16 @@ namespace UserMaintenance
             InitializeComponent();
             lblFullName.Text = Resource1.FullName;
             btnAdd.Text = Resource1.Add;
-            btnSaveFile.Text = Resource1.SaveFile; 
+            btnSaveFile.Text = Resource1.SaveFile;
+            btnDelete.Text = Resource1.Delete;
+
+            
 
             listUsers.DataSource = users;
             listUsers.ValueMember = "ID";
             listUsers.DisplayMember = "FullName";
+
+            listUsers.ValueMember = "FullName";
 
         }
 
@@ -34,7 +39,7 @@ namespace UserMaintenance
             var u = new User()
             {
                 FullName = txtFullName.Text,
-                
+
             };
             users.Add(u);
         }
@@ -43,7 +48,7 @@ namespace UserMaintenance
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.DefaultExt = "txt";
-            
+
             if (sfd.ShowDialog() != DialogResult.OK) return;
             using (StreamWriter sw = new StreamWriter(sfd.FileName, false, Encoding.UTF8))
 
@@ -54,9 +59,20 @@ namespace UserMaintenance
                     sw.Write(u.FullName);
                     sw.WriteLine();
                 }
-           
-            
-            
+
+        }
+
+        
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+
+            string uID = listUsers.SelectedValue.ToString();
+            var ud = from x in users
+                   where x.FullName == uID
+                   select x;
+            users.Remove(ud.FirstOrDefault());
+
         }
     }
 }
