@@ -22,6 +22,7 @@ namespace UM
             label1.Text = Resource1.FullName;
             button1.Text = Resource1.Add;
             button2.Text = Resource1.SaveFile;
+            button3.Text = Resource1.Delete;
 
             listBox1.DataSource = users;
             listBox1.ValueMember = "ID";
@@ -54,6 +55,15 @@ namespace UM
                 }
             
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string uID = listBox1.SelectedValue.ToString();
+            var ud = from x in users
+                     where x.FullName == uID
+                     select x;
+            users.Remove(ud.FirstOrDefault());
         }
     }
 }
